@@ -3,8 +3,8 @@ on:
   pull_request:
       types: [opened, synchronize, closed]
       branches: [dev]
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
 
 jobs:
   test:
