@@ -6,7 +6,7 @@ public class Member {
 
 
 
-
+	public String getId() {}
 	private String email;
 	public Member() {}
 }
