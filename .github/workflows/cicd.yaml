@@ -1,10 +1,14 @@
 name: ci-cd
 on:
+  pull_request:
+      types: [opened, synchronize, closed]
+      branches: [dev]
   push:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   test:
+    if : github.event.action == 'opened' || github.event.action == 'synchronize'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,15 +18,14 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: '21'
-      - name: Cache SonarQube packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-          restore-keys: ${{ runner.os }}-sonar
       - name: Cache Gradle packages
         uses: actions/cache@v4
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/settings.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Tagged tests with coverage
+        run: ./gradlew test
