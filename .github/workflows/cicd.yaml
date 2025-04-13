@@ -3,8 +3,8 @@ on:
   pull_request:
       types: [opened, synchronize, closed]
       branches: [dev]
-  push:
-    branches: [ main ]
+#  push:
+#    branches: [ main ]
 
 jobs:
   test:
@@ -29,3 +29,10 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Tagged tests with coverage
         run: ./gradlew test
+
+  image-build:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
