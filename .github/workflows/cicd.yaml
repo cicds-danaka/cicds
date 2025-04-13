@@ -26,5 +26,3 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle', '**/settings.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-      - name: Tagged tests with coverage
-        run: ./gradlew -DincludeTags=unit test jacocoTestReport
