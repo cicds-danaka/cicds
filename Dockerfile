@@ -1,17 +1,12 @@
-# Build stage
 FROM gradle:8.5-jdk21 AS builder
 WORKDIR /app
 
-# 전체 소스 복사 (한 번에)
 COPY . .
+RUN chmod +x ./gradlew
+RUN ./gradlew clean build -x test --stacktrace
 
-# 빌드 실행
-RUN gradle build -x test
-
-# Runtime stage
 FROM eclipse-temurin:21-jre
 WORKDIR /app
 
 COPY --from=builder /app/build/libs/*.jar app.jar
-
 ENTRYPOINT ["java", "-jar", "app.jar"]
