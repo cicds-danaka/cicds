@@ -6,7 +6,7 @@ WORKDIR /app
 COPY . .
 
 # 빌드 실행
-RUN gradle build -x test --no-daemon
+RUN gradle build -x test
 
 # Runtime stage
 FROM eclipse-temurin:21-jre
