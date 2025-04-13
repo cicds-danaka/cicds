@@ -7,7 +7,7 @@ public class Member {
 
 
 	public String getId() {
-		return id;
+		return "dddd";
 	}
 	private String email;
 	public Member() {}
